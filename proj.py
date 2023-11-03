@@ -18,12 +18,16 @@ class Student:
             return res
     def __str__(self):
         return f'Имя {self.name}\nФамилия {self.surname}\nCредняя оценка за домашние задания: {self.median_rate()}\nКурсы в процессе изучения:{", ".join(self.courses_in_progress)}\nЗавершенные курсы: {", ".join(self.finished_courses)}'
-    def comparison(self, other):
+    def __gt__(self, other):
         if isinstance(other, Student):
-            return (self.median_rate() > other.median_rate())
+            return self.median_rate()>other.median_rate()
         else:
-            return "Нельзя сравнивать"
-
+            return "Нельзя сравнить"
+    def __lt__(self, other):
+        if isinstance(other, Student):
+            return self.median_rate()<other.median_rate()
+        else:
+            return "Нельзя сравнить"
 
 
 class Mentor:
@@ -57,9 +61,14 @@ class Lecturer(Mentor):
             return res
     def __str__(self):
         return f'Имя {self.name}\nФамилия {self.surname}\nСредняя оценка за лекции: {self.median_rate()}'
-    def comparison(self, other):
+    def __gt__(self, other):
         if isinstance(other, Lecturer):
-            return (self.median_rate() > other.median_rate())
+            return self.median_rate()>other.median_rate()
+        else:
+            return "Нельзя сравнить"
+    def __lt__(self, other):
+        if isinstance(other, Lecturer):
+            return self.median_rate()<other.median_rate()
         else:
             return "Нельзя сравнить"
 
@@ -105,5 +114,7 @@ first_student.rate_hw_lec(second_lecturer, 'Java_Script', 9)
 
 print(median_rate_of_students([first_student, second_student], 'Python'))
 print(median_rate_of_students([first_lecturer, second_lecturer], 'Python'))
-
+print(second_student.__gt__(first_student))
+print(second_student.__lt__(first_student))
+print(first_lecturer.__gt__(second_lecturer))
 
